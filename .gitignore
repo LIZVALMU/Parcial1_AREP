@@ -1,0 +1,8 @@
+tarjet/
+
+### VS visual""
+.vscode
+
+# Ignore all files with the specified name.
+# Scope is all repo folders.
+config.json
