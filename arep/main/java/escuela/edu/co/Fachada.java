@@ -31,53 +31,32 @@ public class Fachada{
     BufferedReader in = new BufferedReader(
                             new InputStreamReader(clientSocket.getInputStream()));
     String inputLine, outputLine;
-    boolean firtline = false;
+    boolean firtline = true;
+    String requestStringURI = "";
     
     while ((inputLine = in.readLine()) != null) {
-        System.out.println("Recibí: " + inputLine);
+        if(firtline){
+            System.out.println("Recibí: " + inputLine);
+        }
+        
 
         if (!in.ready()) {break; }
     }
 
-    URI requestUri = new URI(requestStringUri);
-    if(requestUri.getPath().startsWith("/getkv?key={key}"));
-
-
-
-    outputLine = "HTTP/1.1 200 OK\r\n"
-            + "Content-Type: text/html\r\n"
-            + "\r\n"
-            + "<!DOCTYPE html>\n"
-            + "<html>\n"
-            + "<head>\n"
-            + "<meta charset=\"UTF-8\">\n"
-            + "<title>Title of the document</title>\n"
-            + "</head>\n"
-            + "<body>\n"
-            + "<h1>Mi propio mensaje</h1>\n"
-            + "</body>\n"
-            + "</html>\n";
-
-        outputLine = "HTTP/1.1 400 OK\r\n"
-            + "Content-Type: text/html\r\n"
-            + "\r\n"
-            + "<!DOCTYPE html>\n"
-            + "<html>\n"
-            + "<head>\n"
-            + "<meta charset=\"UTF-8\">\n"
-            + "<title>Pagina no Encontrada</title>\n"
-            + "</head>\n"
-            + "<body>\n"
-            + "<h1>404 Not Found</h1>\n"
-            + "</body>\n"
-            + "</html>\n";
+    URI requestURI = new URI(requestStringUri);
+    if(requestURI.getPath().startsWith("/setkv?key={key}&value={value}")){
+    outputLine = getClientResponse(requestURI);
+    }else if(requestURI.getPath().startsWith("/getkv?key={key}")){
+    }else{
+        outputLine = getError();
+    }
 
         out.println(outputLine);
         out.close(); 
         in.close(); 
         clientSocket.close();
-        serverSocket.close(); 
     }
+        serverSocket.close(); 
     }
 
 }
